@@ -1,0 +1,136 @@
+/* ---------- BODY ---------- */
+body {
+  background-color: #0d1117;
+  font-family: 'Segoe UI', sans-serif;
+  color: #c9d1d9;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- ALERT BOX ---------- */
+#alert-box {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 400px;
+  background-color: #238636;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  z-index: 9999;
+  font-size: 15px;
+  box-shadow: 0 0 10px rgba(35, 134, 54, 0.5);
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #161b22;
+  color: #c9d1d9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar h4 {
+  color: #c9d1d9; /* Theme-matching heading */
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.sidebar .nav-link {
+  color: #c9d1d9;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #21262d;
+  color: #58a6ff;
+}
+
+.sidebar .nav-link.active {
+  background-color: #2f81f7;
+  color: white;
+}
+
+/* ---------- FORM BOX ---------- */
+.form-box {
+  background-color: #161b22;
+  width: 600px;
+  margin-left: 270px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(47, 129, 247, 0.1);
+}
+
+/* ---------- FORM HEADING ---------- */
+h2 {
+  color: #c9d1d9;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ---------- LABELS ---------- */
+label {
+  color: #8b949e;
+  font-weight: 500;
+}
+
+/* ---------- INPUT FIELDS ---------- */
+.dark-input {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.dark-input:focus {
+  background-color: #161b22;
+  color: #ffffff;
+  border-color: #58a6ff;
+  box-shadow: none;
+}
+
+.dark-input:hover {
+  border-color: #58a6ff;
+  background-color: #161b22;
+}
+
+/* ---------- FILE INPUT ---------- */
+input[type="file"].dark-input {
+  color-scheme: dark;
+  padding: 8px;
+}
+
+/* ---------- CUSTOM DROPDOWN ARROW ---------- */
+select.dark-input {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%2358a6ff" viewBox="0 0 16 16"><path d="M7.247 11.14l-4.796-5.481c-.451-.516.001-1.246.797-1.246h9.364c.796 0 1.248.73.867 1.159l-4.796 5.481a1 1 0 0 1-1.506 0z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 16px;
+  padding-right: 2.5rem;
+}
+
+/* ---------- SUBMIT BUTTON ---------- */
+.btn-danger {
+  background-color: #2f81f7;
+  border: none;
+  color: white;
+  border-radius: 999px;
+  transition: 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-danger:hover {
+  background-color: #1f6feb;
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(47, 129, 247, 0.4);
+}

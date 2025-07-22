@@ -1,0 +1,804 @@
+/* ===================================
+   MODERN CLEAN SIDEBAR CSS
+   ===================================*/
+
+/* CSS Variables for Sidebar */
+:root {
+   --sidebar-primary: #667eea;
+   --sidebar-secondary: #764ba2;
+   --sidebar-accent: #ffd700;
+   --sidebar-success: #4CAF50;
+   --sidebar-danger: #f44336;
+   --sidebar-warning: #ff9800;
+   --sidebar-white: #ffffff;
+   --sidebar-light: #f8f9fa;
+   --sidebar-dark: #333333;
+   --sidebar-gray: #6c757d;
+   --sidebar-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+   --sidebar-shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
+   --sidebar-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+   --sidebar-border-radius: 20px;
+   --sidebar-border-radius-small: 12px;
+}
+
+/* ===================================
+   SIDEBAR MAIN CONTAINER
+   ===================================*/
+.sidebar {
+   position: fixed;
+   top: 0;
+   left: -320px;
+   width: 320px;
+   height: 100vh;
+   background: linear-gradient(135deg, var(--sidebar-primary) 0%, var(--sidebar-secondary) 100%);
+   z-index: 1500;
+   transition: var(--sidebar-transition);
+   overflow: hidden;
+   border-radius: 0 var(--sidebar-border-radius) var(--sidebar-border-radius) 0;
+   box-shadow: var(--sidebar-shadow);
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar.active {
+   left: 0;
+   animation: slideInLeft 0.4s ease-out;
+}
+
+@keyframes slideInLeft {
+   from {
+      transform: translateX(-100%);
+      opacity: 0;
+   }
+   to {
+      transform: translateX(0);
+      opacity: 1;
+   }
+}
+
+/* ===================================
+   SIDEBAR CONTAINER
+   ===================================*/
+.sidebar-container {
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   background: rgba(255, 255, 255, 0.98);
+   backdrop-filter: blur(20px);
+   border-radius: 0 var(--sidebar-border-radius) var(--sidebar-border-radius) 0;
+   position: relative;
+   overflow: hidden;
+}
+
+.sidebar-container::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+   pointer-events: none;
+}
+
+/* ===================================
+   SIDEBAR HEADER
+   ===================================*/
+.sidebar-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 2.5rem 2rem;
+   background: linear-gradient(135deg, var(--sidebar-primary) 0%, var(--sidebar-secondary) 100%);
+   color: var(--sidebar-white);
+   border-radius: 0 var(--sidebar-border-radius) 0 0;
+   position: relative;
+   overflow: hidden;
+}
+
+.sidebar-header::before {
+   content: '';
+   position: absolute;
+   top: -50%;
+   left: -50%;
+   width: 200%;
+   height: 200%;
+   background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+   animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+   0%, 100% {
+      transform: translateX(-100%) translateY(-100%);
+   }
+   50% {
+      transform: translateX(0%) translateY(0%);
+   }
+}
+
+/* ===================================
+   SIDEBAR BRAND
+   ===================================*/
+.sidebar-brand {
+   display: flex;
+   align-items: center;
+   gap: 1.5rem;
+   z-index: 1;
+}
+
+.brand-icon {
+   width: 5rem;
+   height: 5rem;
+   background: rgba(255, 255, 255, 0.25);
+   border-radius: var(--sidebar-border-radius-small);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   backdrop-filter: blur(10px);
+   border: 1px solid rgba(255, 255, 255, 0.2);
+   transition: var(--sidebar-transition);
+   position: relative;
+   overflow: hidden;
+}
+
+.brand-icon::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: -100%;
+   width: 100%;
+   height: 100%;
+   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+   transition: left 0.6s;
+}
+
+.brand-icon:hover::before {
+   left: 100%;
+}
+
+.brand-icon:hover {
+   transform: scale(1.05);
+   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.brand-icon i {
+   font-size: 2.4rem;
+   color: var(--sidebar-white);
+   z-index: 1;
+}
+
+.brand-text h3 {
+   font-size: 2.2rem;
+   margin: 0;
+   font-weight: 700;
+   color: var(--sidebar-white);
+   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.brand-text h3 span {
+   color: var(--sidebar-accent);
+   font-weight: 300;
+   text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.brand-text p {
+   font-size: 1.2rem;
+   margin: 0.5rem 0 0 0;
+   color: rgba(255, 255, 255, 0.8);
+   font-weight: 300;
+   letter-spacing: 0.5px;
+}
+
+/* ===================================
+   SIDEBAR CLOSE BUTTON
+   ===================================*/
+.sidebar-close {
+   width: 4rem;
+   height: 4rem;
+   background: rgba(255, 255, 255, 0.2);
+   border: none;
+   border-radius: 10px;
+   color: var(--sidebar-white);
+   font-size: 1.8rem;
+   cursor: pointer;
+   transition: var(--sidebar-transition);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+   overflow: hidden;
+   z-index: 1;
+}
+
+.sidebar-close::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: rgba(255, 255, 255, 0.1);
+   transform: scale(0);
+   transition: transform 0.3s ease;
+   border-radius: 10px;
+}
+
+.sidebar-close:hover::before {
+   transform: scale(1);
+}
+
+.sidebar-close:hover {
+   background: rgba(255, 255, 255, 0.3);
+   transform: rotate(90deg);
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ===================================
+   SIDEBAR NAVIGATION
+   ===================================*/
+.sidebar-nav {
+   flex: 1;
+   padding: 2rem 0;
+   overflow-y: auto;
+   scrollbar-width: thin;
+   scrollbar-color: var(--sidebar-primary) transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+   width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+   background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+   background: var(--sidebar-primary);
+   border-radius: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+   background: var(--sidebar-secondary);
+}
+
+/* ===================================
+   NAVIGATION SECTIONS
+   ===================================*/
+.nav-section {
+   margin-bottom: 3rem;
+}
+
+.nav-title {
+   font-size: 1.2rem;
+   font-weight: 600;
+   color: var(--sidebar-gray);
+   text-transform: uppercase;
+   letter-spacing: 1px;
+   padding: 0 2rem;
+   margin-bottom: 1rem;
+   position: relative;
+}
+
+.nav-title::after {
+   content: '';
+   position: absolute;
+   bottom: -5px;
+   left: 2rem;
+   width: 3rem;
+   height: 2px;
+   background: linear-gradient(90deg, var(--sidebar-primary), var(--sidebar-secondary));
+   border-radius: 1px;
+}
+
+.nav-menu {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+}
+
+.nav-item {
+   margin-bottom: 0.5rem;
+   opacity: 0;
+   transform: translateX(-20px);
+   animation: slideInFade 0.5s ease forwards;
+}
+
+.nav-item:nth-child(1) { animation-delay: 0.1s; }
+.nav-item:nth-child(2) { animation-delay: 0.2s; }
+.nav-item:nth-child(3) { animation-delay: 0.3s; }
+.nav-item:nth-child(4) { animation-delay: 0.4s; }
+.nav-item:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideInFade {
+   to {
+      opacity: 1;
+      transform: translateX(0);
+   }
+}
+
+/* ===================================
+   NAVIGATION LINKS
+   ===================================*/
+.nav-link {
+   display: flex;
+   align-items: center;
+   padding: 1.5rem 2rem;
+   color: var(--sidebar-dark);
+   text-decoration: none;
+   transition: var(--sidebar-transition);
+   position: relative;
+   margin: 0 1rem;
+   border-radius: var(--sidebar-border-radius-small);
+   overflow: hidden;
+}
+
+.nav-link::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: -100%;
+   width: 100%;
+   height: 100%;
+   background: linear-gradient(135deg, var(--sidebar-primary) 0%, var(--sidebar-secondary) 100%);
+   transition: left 0.3s ease;
+   z-index: -1;
+}
+
+.nav-link:hover::before,
+.nav-link.active::before {
+   left: 0;
+}
+
+.nav-link:hover {
+   color: var(--sidebar-white);
+   transform: translateX(5px);
+   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.nav-link.active {
+   color: var(--sidebar-white);
+   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* ===================================
+   NAVIGATION ICONS
+   ===================================*/
+.nav-icon {
+   width: 4rem;
+   height: 4rem;
+   background: rgba(102, 126, 234, 0.1);
+   border-radius: 10px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-right: 1.5rem;
+   transition: var(--sidebar-transition);
+   position: relative;
+   overflow: hidden;
+}
+
+.nav-icon::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+   transform: scale(0);
+   transition: transform 0.3s ease;
+}
+
+.nav-link:hover .nav-icon::before,
+.nav-link.active .nav-icon::before {
+   transform: scale(1);
+}
+
+.nav-link:hover .nav-icon,
+.nav-link.active .nav-icon {
+   background: rgba(255, 255, 255, 0.2);
+   transform: scale(1.1);
+}
+
+.nav-icon i {
+   font-size: 1.8rem;
+   color: var(--sidebar-primary);
+   transition: var(--sidebar-transition);
+}
+
+.nav-link:hover .nav-icon i,
+.nav-link.active .nav-icon i {
+   color: var(--sidebar-white);
+}
+
+/* ===================================
+   NAVIGATION TEXT
+   ===================================*/
+.nav-text {
+   font-size: 1.6rem;
+   font-weight: 500;
+   flex: 1;
+   transition: var(--sidebar-transition);
+}
+
+/* ===================================
+   NAVIGATION BADGES
+   ===================================*/
+.nav-badge {
+   background: var(--sidebar-warning);
+   color: var(--sidebar-white);
+   font-size: 1.2rem;
+   padding: 0.3rem 0.8rem;
+   border-radius: 20px;
+   font-weight: 600;
+   min-width: 2rem;
+   text-align: center;
+   animation: float 3s ease-in-out infinite;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-badge.new {
+   background: var(--sidebar-danger);
+   animation: pulse 2s infinite, float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+   0%, 100% { 
+      transform: translateY(0); 
+   }
+   50% { 
+      transform: translateY(-3px); 
+   }
+}
+
+@keyframes pulse {
+   0% { 
+      transform: scale(1); 
+      box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+   }
+   50% { 
+      transform: scale(1.05); 
+      box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+   }
+   100% { 
+      transform: scale(1); 
+      box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+   }
+}
+
+/* ===================================
+   RIPPLE EFFECT
+   ===================================*/
+.ripple {
+   position: absolute;
+   border-radius: 50%;
+   background: rgba(255, 255, 255, 0.6);
+   transform: scale(0);
+   animation: ripple-animation 0.6s linear;
+   pointer-events: none;
+}
+
+@keyframes ripple-animation {
+   to {
+      transform: scale(4);
+      opacity: 0;
+   }
+}
+
+/* ===================================
+   SIDEBAR FOOTER
+   ===================================*/
+.sidebar-footer {
+   padding: 2rem;
+   background: rgba(102, 126, 234, 0.05);
+   border-top: 1px solid rgba(102, 126, 234, 0.1);
+   backdrop-filter: blur(10px);
+}
+
+.admin-profile {
+   display: flex;
+   align-items: center;
+   gap: 1.5rem;
+   padding: 1.5rem;
+   background: var(--sidebar-white);
+   border-radius: 15px;
+   box-shadow: var(--sidebar-shadow-light);
+   transition: var(--sidebar-transition);
+   position: relative;
+   overflow: hidden;
+}
+
+.admin-profile::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: -100%;
+   width: 100%;
+   height: 100%;
+   background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+   transition: left 0.8s;
+}
+
+.admin-profile:hover::before {
+   left: 100%;
+}
+
+.admin-profile:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ===================================
+   PROFILE AVATAR
+   ===================================*/
+.profile-avatar {
+   position: relative;
+   width: 4.8rem;
+   height: 4.8rem;
+   border-radius: 50%;
+   overflow: hidden;
+   border: 3px solid var(--sidebar-primary);
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+   transition: var(--sidebar-transition);
+}
+
+.profile-avatar:hover {
+   transform: scale(1.05);
+   border-color: var(--sidebar-secondary);
+}
+
+.profile-avatar img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+
+.status-indicator {
+   position: absolute;
+   bottom: 2px;
+   right: 2px;
+   width: 1.4rem;
+   height: 1.4rem;
+   border-radius: 50%;
+   border: 2px solid var(--sidebar-white);
+   animation: pulse-status 2s infinite;
+}
+
+.status-indicator.online {
+   background: var(--sidebar-success);
+   box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+}
+
+@keyframes pulse-status {
+   0%, 100% {
+      transform: scale(1);
+   }
+   50% {
+      transform: scale(1.1);
+   }
+}
+
+/* ===================================
+   PROFILE INFO
+   ===================================*/
+.profile-info {
+   flex: 1;
+}
+
+.profile-info h4 {
+   font-size: 1.6rem;
+   margin: 0;
+   color: var(--sidebar-dark);
+   font-weight: 600;
+}
+
+.profile-info p {
+   font-size: 1.2rem;
+   margin: 0.3rem 0 0 0;
+   color: var(--sidebar-gray);
+   font-weight: 400;
+}
+
+/* ===================================
+   PROFILE ACTIONS
+   ===================================*/
+.profile-actions {
+   display: flex;
+   gap: 0.5rem;
+}
+
+.action-btn {
+   width: 3.5rem;
+   height: 3.5rem;
+   background: var(--sidebar-light);
+   border: none;
+   border-radius: 8px;
+   color: var(--sidebar-gray);
+   font-size: 1.4rem;
+   cursor: pointer;
+   transition: var(--sidebar-transition);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-decoration: none;
+   position: relative;
+   overflow: hidden;
+}
+
+.action-btn::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: var(--sidebar-primary);
+   transform: scale(0);
+   transition: transform 0.3s ease;
+   border-radius: 8px;
+}
+
+.action-btn:hover::before {
+   transform: scale(1);
+}
+
+.action-btn:hover {
+   color: var(--sidebar-white);
+   transform: translateY(-2px);
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn.logout::before {
+   background: var(--sidebar-danger);
+}
+
+.action-btn.logout:hover {
+   color: var(--sidebar-white);
+}
+
+.action-btn i {
+   z-index: 1;
+}
+
+/* ===================================
+   SIDEBAR OVERLAY
+   ===================================*/
+.sidebar-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.6);
+   z-index: 1400;
+   display: none;
+   backdrop-filter: blur(5px);
+   transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+   display: block;
+   animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+   from {
+      opacity: 0;
+   }
+   to {
+      opacity: 1;
+   }
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   ===================================*/
+@media (max-width: 768px) {
+   .sidebar {
+      width: 300px;
+      left: -300px;
+      border-radius: 0;
+   }
+
+   .sidebar-container {
+      border-radius: 0;
+   }
+
+   .sidebar-header {
+      border-radius: 0;
+      padding: 2rem 1.5rem;
+   }
+
+   .brand-text h3 {
+      font-size: 2rem;
+   }
+
+   .nav-text {
+      font-size: 1.5rem;
+   }
+
+   .admin-profile {
+      flex-direction: column;
+      text-align: center;
+   }
+
+   .profile-actions {
+      margin-top: 1rem;
+   }
+
+   .sidebar-nav {
+      padding: 1.5rem 0;
+   }
+
+   .nav-link {
+      padding: 1.2rem 1.5rem;
+   }
+}
+
+@media (max-width: 480px) {
+   .sidebar {
+      width: 280px;
+      left: -280px;
+   }
+
+   .sidebar-header {
+      padding: 1.5rem 1rem;
+   }
+
+   .brand-icon {
+      width: 4rem;
+      height: 4rem;
+   }
+
+   .brand-text h3 {
+      font-size: 1.8rem;
+   }
+
+   .nav-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+   }
+
+   .nav-text {
+      font-size: 1.4rem;
+   }
+}
+
+/* ===================================
+   DARK MODE SUPPORT
+   ===================================*/
+@media (prefers-color-scheme: dark) {
+   .sidebar-container {
+      background: rgba(30, 30, 30, 0.98);
+   }
+
+   .nav-link {
+      color: #e0e0e0;
+   }
+
+   .nav-title {
+      color: #b0b0b0;
+   }
+
+   .admin-profile {
+      background: #2a2a2a;
+      color: #e0e0e0;
+   }
+
+   .profile-info h4 {
+      color: #e0e0e0;
+   }
+
+   .profile-info p {
+      color: #b0b0b0;
+   }
+}
+
+/* ===================================
+   PRINT STYLES
+   ===================================*/
+@media print {
+   .sidebar,
+   .sidebar-overlay {
+      display: none !important;
+   }
+}
