@@ -7,38 +7,52 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 include 'config.php';
+session_start();
+
+$message = [];
 
 if (isset($_POST['submit'])) {
-
-   $name = mysqli_real_escape_string($conn, $_POST['name']);
-   $email = mysqli_real_escape_string($conn, $_POST['email']);
-   $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
-   $cpass = mysqli_real_escape_string($conn, md5($_POST['cpassword']));
+   $name = trim($_POST['name']);
+   $email = trim($_POST['email']);
+   $password = $_POST['password'];
+   $cpassword = $_POST['cpassword'];
    $user_type = $_POST['user_type'];
 
-   $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
-
-   if (mysqli_num_rows($select_users) > 0) {
-      $message[] = 'User already exists!';
+   if ($password !== $cpassword) {
+      $message[] = 'Confirm password not matched!';
    } else {
-      if ($pass != $cpass) {
-         $message[] = 'Confirm password not matched!';
-      } else {
-         mysqli_query($conn, "INSERT INTO `users`(name, email, password, user_type) VALUES('$name', '$email', '$pass', '$user_type')") or die('query failed');
+      // Check if user already exists
+      $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+      $stmt->bind_param("s", $email);
+      $stmt->execute();
+      $result = $stmt->get_result();
 
-         // Send email to admin
+      if ($result->num_rows > 0) {
+         // User exists, redirect without showing message
+         $_SESSION['message'] = 'You are already registered. Please login.';
+         header('Location: login.php');
+         exit;
+      } else {
+         // Register new user
+         $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
+
+         $insert = $conn->prepare("INSERT INTO users (name, email, password, user_type) VALUES (?, ?, ?, ?)");
+         $insert->bind_param("ssss", $name, $email, $hashed_pass, $user_type);
+         $insert->execute();
+
+         // Send notification email to admin
          $mail = new PHPMailer(true);
          try {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'kamisaim884@gmail.com';
-            $mail->Password = 'hxkbovphcgeqdgyk';
+            $mail->Username = 'kamisaim884@gmail.com'; // Replace with your Gmail
+            $mail->Password = 'yllpovkbuuzqrvof';    // Replace with your App Password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
-            $mail->setFrom('kamisaim884@gmail.com', 'New Registration Alert');
-            $mail->addAddress('kamisaim884@gmail.com');
+            $mail->setFrom('kamisaim884@gmail.com', 'Registration System');
+            $mail->addAddress('kamisaim884@gmail.om'); // Replace with admin email
 
             $mail->isHTML(true);
             $mail->Subject = 'New User Registered';
@@ -51,177 +65,89 @@ if (isset($_POST['submit'])) {
 
             $mail->send();
          } catch (Exception $e) {
+            // Optional: log error to file instead of showing it
             $message[] = 'Mail could not be sent. Error: ' . $mail->ErrorInfo;
          }
 
-         $message[] = 'Registered successfully!';
-         header('location:login.php');
+         $_SESSION['message'] = 'Registered successfully!';
+         header('Location: login.php');
+         exit;
       }
    }
 }
 ?>
-
-
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Register | Admin Panel</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | Admin Panel</title>
 
-   <style>
-      * {
-         margin: 0;
-         padding: 0;
-         box-sizing: border-box;
-         font-family: 'Poppins', sans-serif;
-      }
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-      body {
-         height: 100vh;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      }
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
-      .form-container {
-         background: rgba(255, 255, 255, 0.1);
-         backdrop-filter: blur(10px);
-         padding: 40px;
-         border-radius: 15px;
-         box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-         width: 100%;
-         max-width: 400px;
-         position: relative;
-         animation: slideIn 0.6s ease-out;
-      }
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
 
-      @keyframes slideIn {
-         from {
-            transform: translateY(-30px);
-            opacity: 0;
-         }
-         to {
-            transform: translateY(0);
-            opacity: 1;
-         }
-      }
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+      transform: scale(0.95);
+    }
 
-      .form-container img.logo {
-         width: 100px;
-         display: block;
-         margin: 0 auto 20px;
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
       }
-
-      .form-container h3 {
-         text-align: center;
-         color: #fff;
-         margin-bottom: 20px;
-      }
-
-      .box {
-         width: 100%;
-         padding: 12px;
-         margin-bottom: 15px;
-         border: none;
-         border-radius: 10px;
-         outline: none;
-         transition: 0.3s ease;
-      }
-
-      .box:focus {
-         background-color: #eef;
-         transform: scale(1.02);
-      }
-
-      .btn {
-         width: 100%;
-         padding: 12px;
-         background: #3498db;
-         border: none;
-         border-radius: 10px;
-         color: #fff;
-         font-weight: 600;
-         cursor: pointer;
-         transition: background 0.3s ease;
-      }
-
-      .btn:hover {
-         background: #2980b9;
-      }
-
-      p {
-         text-align: center;
-         color: #fff;
-         margin-top: 10px;
-      }
-
-      a {
-         color: #00f;
-         text-decoration: underline;
-      }
-
-      .message {
-         background: #fff;
-         color: #000;
-         padding: 10px 15px;
-         margin: 10px auto;
-         border-radius: 8px;
-         width: fit-content;
-         display: flex;
-         align-items: center;
-         gap: 10px;
-         box-shadow: 0 0 10px rgba(0,0,0,0.2);
-         animation: fadeIn 0.4s ease;
-      }
-
-      .message i {
-         cursor: pointer;
-         color: #888;
-      }
-
-      @keyframes fadeIn {
-         from {opacity: 0;}
-         to {opacity: 1;}
-      }
-   </style>
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen bg-gradient-to-br from-[#0a0f2c] to-[#1d3557] flex items-center justify-center px-4">
 
-<?php
-if (isset($message)) {
-   foreach ($message as $msg) {
-      echo '
-      <div class="message">
-         <span>'.$msg.'</span>
-         <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-      </div>';
-   }
-}
-?>
+  <div class="bg-white/10 backdrop-blur-md shadow-2xl rounded-2xl p-8 w-full max-w-md fade-in">
+    <div class="flex justify-center mb-6">
+      <img src="../images/logo.png" alt="Logo" class="h-16">
+    </div>
+    <h2 class="text-center text-white text-2xl font-semibold mb-4">Register Now</h2>
 
-<div class="form-container">
-   <img src="../images/logo.png" alt="Logo" class="logo">
-   <form action="" method="post">
-      <h3>Register Now</h3>
-      <input type="text" name="name" placeholder="Enter your name" required class="box">
-      <input type="email" name="email" placeholder="Enter your email" required class="box">
-      <input type="password" name="password" placeholder="Enter your password" required class="box">
-      <input type="password" name="cpassword" placeholder="Confirm your password" required class="box">
-      <select name="user_type" class="box">
-         <option value="user">User</option>
-         <option value="admin">Admin</option>
+    <form action="" method="post" class="space-y-5">
+      <input type="text" name="name" placeholder="Enter your name" required
+        class="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white/20 transition duration-300 ease-in-out transform focus:scale-105" />
+
+      <input type="email" name="email" placeholder="Enter your email" required
+        class="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white/20 transition duration-300 ease-in-out transform focus:scale-105" />
+
+      <input type="password" name="password" placeholder="Enter your password" required
+        class="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white/20 transition duration-300 ease-in-out transform focus:scale-105" />
+
+      <input type="password" name="cpassword" placeholder="Confirm your password" required
+        class="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white/20 transition duration-300 ease-in-out transform focus:scale-105" />
+
+      <select name="user_type"
+        class="w-full px-4 py-3 rounded-xl bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white/20 transition duration-300 ease-in-out transform focus:scale-105">
+        <option value="user" class="text-black">User</option>
+        <option value="admin" class="text-black">Admin</option>
       </select>
-      <input type="submit" name="submit" value="Register Now" class="btn">
-      <p>Already have an account? <a href="login.php">Login now</a></p>
-   </form>
-</div>
+
+      <button type="submit" name="submit"
+        class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+        Register Now
+      </button>
+    </form>
+
+    <p class="text-center text-gray-200 text-sm mt-6">
+      Already have an account?
+      <a href="login.php" class="text-white font-medium hover:underline">Login now</a>
+    </p>
+  </div>
 
 </body>
 </html>

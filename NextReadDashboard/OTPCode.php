@@ -11,7 +11,7 @@ if (isset($_POST['verify_otp'])) {
     if ($entered_otp == $_SESSION['admin_otp']) {
         $_SESSION['admin_logged_in'] = true;
         unset($_SESSION['admin_otp']); // OTP used, now clear it
-        header("Location: Main.php"); // Redirect to admin dashboard
+        header("Location: admin_page.php"); // Redirect to admin dashboard
         exit;
     } else {
         echo "

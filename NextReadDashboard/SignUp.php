@@ -39,7 +39,7 @@ if (isset($_POST['admin_signup'])) {
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'kamisaim884@gmail.com';  // Your Gmail
-                $mail->Password = 'hxkbovphcgeqdgyk';       // Gmail App Password
+                $mail->Password = 'yllpovkbuuzqrvof';       // Gmail App Password
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 

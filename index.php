@@ -50,38 +50,7 @@ include("navbar.php")
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body class="bg-gunmetal text-light-grayish-white min-h-screen flex flex-col">
-    <!-- Header -->
-    <header
-      class="bg-gunmetal text-light-grayish-white py-4 px-6 flex items-center justify-between shadow-md animate-fadeInUp"
-    >
-      <div class="flex items-center gap-2">
-        <img
-          src="https://img.freepik.com/free-vector/bike-guy-wattpad-book-cover_23-2149452163.jpg?t=st=1752922123~exp=1752925723~hmac=c218edd506e9503b891252c059ddf51a4c5a755f9dbe23c390f7588759bb663e&w=826"
-          width="24"
-          height="24"
-          alt="EbookStore Logo"
-          class="invert"
-        />
-        <span class="font-semibold text-lg">EbookStore</span>
-      </div>
-      <nav class="hidden md:flex items-center gap-6">
-        <a
-          href="index.html"
-          class="hover:text-light-blue-tint transition-colors duration-300"
-          >Home</a
-        >
-        <a
-          href="about.php"
-          class="hover:text-light-blue-tint transition-colors duration-300"
-          >About</a
-        >
-      </nav>
-      <button
-        class="bg-primary-blue text-white px-6 py-2 rounded-md hover:bg-light-blue-tint transition-colors duration-300"
-      >
-        Buy now
-      </button>
-    </header>
+ 
 
     <main class="flex-grow">
       <!-- Hero Section -->

@@ -6,21 +6,12 @@ if (!isset($_SESSION['admin_otp'])) {
     exit;
 }
 
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
 if (isset($_POST['verify_otp'])) {
-    if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die('Invalid CSRF token!');
-    }
-
     $entered_otp = $_POST['otp'];
     if ($entered_otp == $_SESSION['admin_otp']) {
         $_SESSION['admin_logged_in'] = true;
-        unset($_SESSION['admin_otp']); // OTP used, now clear it
-        unset($_SESSION['csrf_token']);
-        header("Location: Admin_page.php"); // Redirect to admin dashboard
+        unset($_SESSION['admin_otp']); // OTP used
+        header("Location: admin_page.php");
         exit;
     } else {
         echo "
@@ -95,8 +86,7 @@ if (isset($_POST['verify_otp'])) {
     </div>
 
     <form method="POST" class="space-y-6">
-      <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-      <input type="text" name="otp" maxlength="6" pattern="\d{6}" required autofocus
+      <input type="text" name="otp" maxlength="6" pattern="\d{6}" required
         class="text-center text-2xl tracking-widest w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-sky-500"
         placeholder="000000">
 
@@ -104,10 +94,6 @@ if (isset($_POST['verify_otp'])) {
         class="w-full py-3 bg-gradient-to-r from-sky-500 to-indigo-500 text-white font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition duration-300">
         Verify OTP
       </button>
-
-      <p class="text-sm text-center text-gray-500">Didn't get the code?
-        <a href="resend_otp.php" class="text-sky-600 hover:underline">Resend OTP</a>
-      </p>
     </form>
   </div>
 </body>

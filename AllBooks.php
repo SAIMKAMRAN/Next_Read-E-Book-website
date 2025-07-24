@@ -22,7 +22,7 @@ $result = mysqli_query($conn, $query);
       <h2 class="text-xl font-bold mb-4 text-gray-800">📚 Categories</h2>
       <ul class="space-y-3">
         <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-blue-100 text-gray-700">History</a></li>
-        <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-blue-100 text-gray-700">Finance</a></li>
+        <li><a href="finance.php" class="block px-3 py-2 rounded-lg hover:bg-blue-100 text-gray-700">Finance</a></li>
         <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-blue-100 text-gray-700">Health Care</a></li>
         <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-blue-100 text-gray-700">Motivation</a></li>
         <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-blue-100 text-gray-700">Psychology</a></li>

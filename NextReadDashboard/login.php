@@ -29,7 +29,7 @@ if (isset($_POST['admin_login'])) {
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'kamisaim884@gmail.com';
-            $mail->Password = 'hxkbovphcgeqdgyk';
+            $mail->Password = 'yllpovkbuuzqrvof';
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
